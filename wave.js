@@ -19,7 +19,7 @@ const wave = {
 // - l Lightness亮度 0%是黑色 100%是白色
 // - a Alpha 透明度 0是透明 1是不透明
 const colorStrke = {
-  h: 0,
+  h: 200,
   s: 100,
   l: 50,
   a: 1
@@ -54,6 +54,7 @@ colorBgFolder.add(colorBg, "b", 0, 255);
 colorBgFolder.add(colorBg, "a", 0, 1);
 colorBgFolder.open();
 
+
 let increment = wave.frequenty;
 function animate() {
   requestAnimationFrame(animate);
@@ -66,11 +67,12 @@ function animate() {
   for (let i = 0; i < canvas.width; i++) {
     c.lineTo(
       i,
-      wave.y + Math.sin(i * wave.length + increment) * wave.amplitude
+      wave.y + Math.sin(i * wave.length + increment) * wave.amplitude * Math.sin(increment)
     );
   }
 
-  c.strokeStyle = `hsla(${colorStrke.h}, ${colorStrke.s}%, ${colorStrke.l}%, ${colorStrke.a})`;
+  // console.log(Math.abs(colorStrke.h * Math.sin(increment)))
+  c.strokeStyle = `hsla(${Math.abs(colorStrke.h * Math.sin(increment))}, ${colorStrke.s}%, ${colorStrke.l}%, ${colorStrke.a})`;
   c.stroke();
 
   increment += wave.frequenty;
