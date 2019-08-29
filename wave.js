@@ -19,11 +19,18 @@ const wave = {
 // - l Lightness亮度 0%是黑色 100%是白色
 // - a Alpha 透明度 0是透明 1是不透明
 const colorStrke = {
-    h: 0,
-    s: 100,
-    l: 50,
-    a: 1
-  };
+  h: 0,
+  s: 100,
+  l: 50,
+  a: 1
+};
+
+const colorBg = {
+  r: 0,
+  g: 0,
+  b: 0,
+  a: 0.01
+};
 
 // GUI config
 const waveFolder = gui.addFolder("wave");
@@ -40,25 +47,33 @@ colorStrokeFolder.add(colorStrke, "l", 0, 100);
 colorStrokeFolder.add(colorStrke, "a", 0, 1);
 colorStrokeFolder.open();
 
-
+const colorBgFolder = gui.addFolder("color background");
+colorBgFolder.add(colorBg, "r", 0, 255);
+colorBgFolder.add(colorBg, "g", 0, 255);
+colorBgFolder.add(colorBg, "b", 0, 255);
+colorBgFolder.add(colorBg, "a", 0, 1);
+colorBgFolder.open();
 
 let increment = wave.frequenty;
-function animate () {
-    requestAnimationFrame(animate);
-    c.fillStyle = "rgba(0,0,0,0.01)"
-    c.fillRect(0, 0, canvas.width, canvas.height)
-    // c.clearRect(0, 0, canvas.width, canvas.height);
+function animate() {
+  requestAnimationFrame(animate);
+  c.fillStyle = `rgba(${colorBg.r}, ${colorBg.g}, ${colorBg.b}, ${colorBg.a})`;
+  c.fillRect(0, 0, canvas.width, canvas.height);
+  // c.clearRect(0, 0, canvas.width, canvas.height);
 
-    c.beginPath();
-    c.moveTo(0, canvas.height / 2);
-    for (let i = 0; i < canvas.width; i++) {
-      c.lineTo(i, wave.y + Math.sin(i * wave.length + increment) * wave.amplitude);
-    }
+  c.beginPath();
+  c.moveTo(0, canvas.height / 2);
+  for (let i = 0; i < canvas.width; i++) {
+    c.lineTo(
+      i,
+      wave.y + Math.sin(i * wave.length + increment) * wave.amplitude
+    );
+  }
 
-    c.strokeStyle = `hsla(${colorStrke.h}, ${colorStrke.s}%, ${colorStrke.l}%, ${colorStrke.a})`
-    c.stroke();
+  c.strokeStyle = `hsla(${colorStrke.h}, ${colorStrke.s}%, ${colorStrke.l}%, ${colorStrke.a})`;
+  c.stroke();
 
-    increment += wave.frequenty;
+  increment += wave.frequenty;
 }
 
 animate();
