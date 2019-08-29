@@ -54,7 +54,6 @@ colorBgFolder.add(colorBg, "b", 0, 255);
 colorBgFolder.add(colorBg, "a", 0, 1);
 colorBgFolder.open();
 
-
 let increment = wave.frequenty;
 function animate() {
   requestAnimationFrame(animate);
