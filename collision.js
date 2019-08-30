@@ -17,6 +17,18 @@ addEventListener("mousemove", event => {
   mouse.y = event.clientY;
 });
 
+function getDistance(x1, y1, x2, y2) {
+  // console.log("1", {x: x1, y: y1});
+  // console.log("2", {x: x2, y: y2});
+
+  xDistance = x1 - x2;
+  yDistance = y1 - y2;
+
+  return (zDistance = Math.sqrt(
+    Math.pow(xDistance, 2) + Math.pow(yDistance, 2)
+  ));
+}
+
 // 构建页面对象
 function Circle(x, y, radius, color) {
   this.x = x;
@@ -59,6 +71,11 @@ function animate() {
   circle2.x = mouse.x;
   circle2.y = mouse.y;
   circle2.update();
+
+  let d = getDistance(circle1.x, circle1.y, circle2.x, circle2.y);
+  if (d < circle1.radius + circle2.radius) circle1.color = "red";
+  else circle1.color = "black";
+
 }
 
 init();
