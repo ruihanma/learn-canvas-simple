@@ -26,8 +26,21 @@ function Particle(x, y, radius, color) {
     y: Math.random() - 0.5
   };
 
-  this.update = () => {
+  this.update = particles => {
     this.draw();
+
+    if (particles && particles.length > 0) {
+      for (let i = 0; i < particles.length; i++) {
+        if (this === particles[i]) continue;
+        if (
+          getDistance(this.x, this.y, particles[i].x, particles[i].y) -
+            this.radius * 2 <
+          0
+        ) {
+          console.log(`${i}-collied`);
+        }
+      }
+    }
 
     if (this.x - this.radius <= 0 || this.x + this.radius >= canvas.width)
       this.velocity.x = -this.velocity.x;
@@ -83,7 +96,7 @@ animate = () => {
   c.clearRect(0, 0, canvas.width, canvas.height);
 
   particles.forEach(particle => {
-    particle.update();
+    particle.update(particles);
   });
 };
 
