@@ -18,14 +18,21 @@ function Particle(x, y, radius, color) {
   this.color = color;
   // 速度
   this.velocity = {
-    x: Math.random(),
-    y: Math.random()
+    x: Math.random() - 0.5,
+    y: Math.random() - 0.5
   };
 
   this.update = () => {
+    this.draw();
+
+    if (this.x + this.radius > canvas.width || this.x - this.radius < 0)
+      this.velocity.x = -this.velocity.x;
+
+    if (this.y + this.radius > canvas.height || this.y - this.radius < 0)
+      this.velocity.y = -this.velocity.y;
+
     this.x += this.velocity.x;
     this.y += this.velocity.y;
-    this.draw();
   };
 
   this.draw = () => {
