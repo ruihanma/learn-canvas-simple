@@ -62,8 +62,6 @@ function particleCollision(particle, otherParticle) {
 
     otherParticle.velocity.x = vFinal2.x;
     otherParticle.velocity.y = vFinal2.y;
-
-    
   }
 }
 
@@ -90,7 +88,7 @@ function Particle(x, y, radius, color) {
       // 遍历所有的点 计算位置
       let d = calculateDistance(this.x, this.y, particles[i].x, particles[i].y);
       if (d < this.radius * 2) {
-          particleCollision(this, particles[i]);
+        particleCollision(this, particles[i]);
       }
     }
 
