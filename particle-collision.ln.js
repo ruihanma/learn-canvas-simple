@@ -27,17 +27,20 @@ function Particle(x, y, radius, color) {
     y: Math.random() - 0.5
   };
 
-  this.update = () => {
+  this.update = particles => {
     this.draw();
 
-    if (this.x + this.radius > canvas.width || this.x - this.radius < 0)
-      this.velocity.x = -this.velocity.x;
 
-    if (this.y + this.radius > canvas.height || this.y - this.radius < 0)
-      this.velocity.y = -this.velocity.y;
 
-    this.x += this.velocity.x;
-    this.y += this.velocity.y;
+    // // 触壁反弹 触壁后将对应轴速率反值
+    // if (this.x + this.radius > canvas.width || this.x - this.radius < 0)
+    //   this.velocity.x = -this.velocity.x;
+
+    // if (this.y + this.radius > canvas.height || this.y - this.radius < 0)
+    //   this.velocity.y = -this.velocity.y;
+
+    // this.x += this.velocity.x;
+    // this.y += this.velocity.y;
   };
 
   this.draw = () => {
@@ -78,7 +81,7 @@ function animate() {
   c.clearRect(0, 0, canvas.width, canvas.height);
 
   particles.forEach(el => {
-    el.update();
+    el.update(particles);
   });
 }
 
