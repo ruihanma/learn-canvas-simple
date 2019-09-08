@@ -12,7 +12,7 @@ function randomRange(min, max) {
 // 获取两点间距离方法
 function calculateDistance(x1, y1, x2, y2) {
   let d = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 2);
-  return d
+  return d;
 }
 
 // 点方法
@@ -29,8 +29,6 @@ function Particle(x, y, radius, color) {
 
   this.update = particles => {
     this.draw();
-
-
 
     // // 触壁反弹 触壁后将对应轴速率反值
     // if (this.x + this.radius > canvas.width || this.x - this.radius < 0)
@@ -61,16 +59,24 @@ let particles,
 // 初始化方法
 function init() {
   particles = [];
-  // 初始的位置放在init
+
+  // 初始化原点位置不重合
   for (let i = 0; i < count; i++) {
-    particles.push(
-      new Particle(
-        randomRange(radius, innerWidth - radius),
-        randomRange(radius, innerHeight - radius),
-        radius,
-        "blue"
-      )
-    );
+    let x = randomRange(radius, innerWidth - radius),
+      y = randomRange(radius, innerHeight - radius);
+
+    if (i !== 0) {
+      for (let j = 0; j < particles.length; j++) {
+        let d = calculateDistance(particles[j].x, particles[j].y, x, y);
+        if (d < radius * 2) {
+          x = randomRange(radius, innerWidth - radius);
+          y = randomRange(radius, innerHeight - radius);
+          j = -1; // 重新循环计算位置 直到取到合适的位置
+        }
+      }
+    }
+
+    particles.push(new Particle(x, y, radius, "blue"));
   }
 }
 
