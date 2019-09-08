@@ -32,6 +32,7 @@ function Particle(x, y, radius, color) {
 
     // 处理单个点和所有点之间的关系
     for (let i = 0; i < particles.length; i++) {
+      if (this === particles[i]) continue;
       // 遍历所有的点 计算位置
       let d = calculateDistance(this.x, this.y, particles[i].x, particles[i].y);
       if (d < this.radius * 2) {
