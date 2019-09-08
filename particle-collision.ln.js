@@ -30,6 +30,15 @@ function Particle(x, y, radius, color) {
   this.update = particles => {
     this.draw();
 
+    // 处理单个点和所有点之间的关系
+    for (let i = 0; i < particles.length; i++) {
+      // 遍历所有的点 计算位置
+      let d = calculateDistance(this.x, this.y, particles[i].x, particles[i].y);
+      if (d < this.radius * 2) {
+        console.log(`${i} - 重合了`);
+      }
+    }
+
     // 触壁反弹 触壁后将对应轴速率反值
     if (this.x + this.radius > canvas.width || this.x - this.radius < 0)
       this.velocity.x = -this.velocity.x;
