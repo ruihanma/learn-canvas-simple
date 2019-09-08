@@ -1,3 +1,5 @@
+import { id } from "postcss-selector-parser";
+
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 
@@ -14,6 +16,56 @@ function calculateDistance(x1, y1, x2, y2) {
   let d = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 2);
   return d;
 }
+// 旋转方法
+function particleRotate(velocity, angle) {
+  const rotatedVelocities = {
+    x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle),
+    y: velocity.x * Math.sin(angle) + velocity.y * Math.cos(angle)
+  };
+
+  return rotatedVelocities;
+}
+// 两点碰撞处理
+function particleCollision(particle, otherParticle) {
+  const xVelocityDiff = particle.velocity.x - otherParticle.velocity.x;
+  const yVelocityDiff = particle.velocity.y - otherParticle.velocity.y;
+
+  const xDist = otherParticle.x - particle.x;
+  const yDist = otherParticle.y - particle.y;
+
+  if (xVelocityDiff * xDist + yVelocityDiff * yDist >= 0) {
+    const angle = -Math.atan2(
+      otherParticle.y - particle.y,
+      otherParticle.x - particle.x
+    );
+
+    const m1 = particle.mass;
+    const m2 = particle.mass;
+
+    const u1 = particleRotate(particle.velocity, angle);
+    const u2 = particleRotate(otherParticle.velocity, angle);
+
+    const v1 = {
+      x: (u1.x * (m1 - m2)) / (m1 + m2) + (u2.x * 2 * m2) / (m1 + m2),
+      y: u1.y
+    };
+    const v2 = {
+      x: (u2.x * (m1 - m2)) / (m1 + m2) + (u1.x * 2 * m2) / (m1 + m2),
+      y: u2.y
+    };
+
+    const vFinal1 = particleRotate(v1, -angle);
+    const vFinal2 = particleRotate(v2, -angle);
+
+    particle.velocity.x = vFinal1.x;
+    particle.velocity.y = vFinal1.y;
+
+    otherParticle.velocity.x = vFinal2.x;
+    otherParticle.velocity.y = vFinal2.y;
+
+    
+  }
+}
 
 // 点方法
 function Particle(x, y, radius, color) {
@@ -21,6 +73,8 @@ function Particle(x, y, radius, color) {
   this.y = y;
   this.radius = radius;
   this.color = color;
+
+  this.mass = 1;
   // 速度
   this.velocity = {
     x: Math.random() - 0.5,
@@ -36,7 +90,7 @@ function Particle(x, y, radius, color) {
       // 遍历所有的点 计算位置
       let d = calculateDistance(this.x, this.y, particles[i].x, particles[i].y);
       if (d < this.radius * 2) {
-        console.log(`${i} - 重合了`);
+          particleCollision(this, particles[i]);
       }
     }
 
