@@ -5,44 +5,59 @@ const c = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
+// 范围方法函数
+function randomRange(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 // 点方法
 function Particle(x, y, radius, color) {
   this.x = x;
   this.y = y;
   this.radius = radius;
   this.color = color;
-  
 
   this.update = () => {
-      this.draw();
-  }
+    this.draw();
+  };
 
   this.draw = () => {
-      
-      c.beginPath();
-    
-      c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-      c.strokeStyle = this.color;
-      c.stroke();
-    
-      c.closePath();
-  }
+    c.beginPath();
 
+    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    c.strokeStyle = this.color;
+    c.stroke();
+
+    c.closePath();
+  };
 }
 
-let particle;
+let particles,
+  radius = 100,
+  count = 4;
 
 // 初始化方法
 function init() {
-  particle = new Particle(innerWidth / 2, innerHeight / 2, 100, "blue");
-
+  particles = [];
+  // 初始的位置放在init
+  for (let i = 0; i < count; i++) {
+    particles.push(
+      new Particle(
+        randomRange(radius, innerWidth - radius),
+        randomRange(radius, innerHeight - radius),
+        radius,
+        "blue"
+      )
+    );
+  }
 }
 
-// 动画方法ßßßß
+// 动画方法
 function animate() {
   requestAnimationFrame(animate);
-
-    particle.update();
+    particles.forEach(el => {
+        el.update()
+    });
 }
 
 init();
