@@ -16,8 +16,15 @@ function Particle(x, y, radius, color) {
   this.y = y;
   this.radius = radius;
   this.color = color;
+  // 速度
+  this.velocity = {
+    x: Math.random(),
+    y: Math.random()
+  };
 
   this.update = () => {
+    this.x += this.velocity.x;
+    this.y += this.velocity.y;
     this.draw();
   };
 
@@ -55,9 +62,12 @@ function init() {
 // 动画方法
 function animate() {
   requestAnimationFrame(animate);
-    particles.forEach(el => {
-        el.update()
-    });
+
+  c.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(el => {
+    el.update();
+  });
 }
 
 init();
