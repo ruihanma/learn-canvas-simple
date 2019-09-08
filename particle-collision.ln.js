@@ -5,9 +5,14 @@ const c = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
-// 范围方法函数
+// 随机数范围方法函数
 function randomRange(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
+}
+// 获取两点间距离方法
+function calculateDistance(x1, y1, x2, y2) {
+  let d = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 2);
+  return d
 }
 
 // 点方法
