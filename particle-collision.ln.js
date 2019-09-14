@@ -115,8 +115,8 @@ function Particle(x, y, radius, color) {
 }
 
 let particles,
-  radius = 100,
-  count = 4;
+  radius = 10,
+  count = 200;
 
 // 初始化方法
 function init() {
